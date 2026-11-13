@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import About from '../components/About.astro';
+import Icon from '../components/Icon.astro';
+
+// Projets mis en avant (featured: true dans le fichier MDX), 5 maximum
+const featured = (await getCollection('projects', ({ data }) => data.featured))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 5);
+---
+
+<BaseLayout>
+  <Hero />
+
+  <div class="mx-auto max-w-5xl px-5">
+    <!-- Onglets Portfolio / À propos -->
+    <div class="reveal sticky top-[72px] z-30 mx-auto max-w-md">
+      <div role="tablist" aria-label="Sections" class="grid grid-cols-2 gap-1 rounded-2xl border border-line bg-card/90 p-1.5 backdrop-blur">
+        <button
+          role="tab"
+          id="tab-portfolio"
+          aria-selected="true"
+          aria-controls="panel-portfolio"
+          class="tab rounded-xl px-4 py-3 font-bold transition-colors"
+        >
+          Portfolio
+        </button>
+        <button
+          role="tab"
+          id="tab-about"
+          aria-selected="false"
+          aria-controls="panel-about"
+          tabindex="-1"
+          class="tab rounded-xl px-4 py-3 font-bold transition-colors"
+        >
+          À propos
+        </button>
+      </div>
+    </div>
+
+    <section id="panel-portfolio" role="tabpanel" aria-labelledby="tab-portfolio" class="mt-10">
+      <div class="grid gap-5 sm:grid-cols-2">
+        {featured.map((p) => <div class="reveal"><ProjectCard project={p} /></div>)}
+      </div>
+      <div class="mt-10 text-center">
+        <a
+          href="/projects/"
+          class="inline-flex items-center gap-2 rounded-full border border-line bg-card px-6 py-3 font-bold transition hover:border-accent hover:text-accent"
+        >
+          Voir tous les projets <Icon name="arrow" class="h-4 w-4" />
+        </a>
+      </div>
+    </section>
+
+    <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" class="mt-10 hidden">
+      <About />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .tab[aria-selected='true'] {
+    background: var(--color-accent);
+    color: white;
+  }
+  :global(.dark) .tab[aria-selected='true'] {
+    color: var(--color-paper);
+  }
+  .tab[aria-selected='false'] {
+    color: var(--color-muted);
+  }
+  .tab[aria-selected='false']:hover {
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  // Bascule entre les onglets sans recharger la page (+ navigation au clavier ← →)
+  function initTabs() {
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    if (!tabs.length) return;
+
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')!)?.classList.toggle('hidden', !on);
+      });
+      if (focus) tab.focus();
+      // Révèle les éléments du panneau nouvellement affiché
+      document.querySelectorAll('[role="tabpanel"]:not(.hidden) .reveal').forEach((el) => el.classList.add('is-visible'));
+      history.replaceState(null, '', tab.id === 'tab-about' ? '#a-propos' : location.pathname);
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+          select(next, true);
+        }
+      });
+    });
+
+    if (location.hash === '#a-propos') select(tabs[1]);
+  }
+  document.addEventListener('astro:page-load', initTabs);
+</script>

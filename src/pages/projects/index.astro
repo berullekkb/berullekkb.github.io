@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projectCategories } from '../../data/profile';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order || b.data.date.getTime() - a.data.date.getTime()
+);
+// N'affiche que les catégories qui contiennent au moins un projet
+const categories = projectCategories.filter((c) => projects.some((p) => p.data.category === c));
+---
+
+<BaseLayout title="Projets" description="Tous les projets de Berulle KAMDEM KAMDEM : IA, data, web.">
+  <div class="mx-auto max-w-5xl px-5 pt-14">
+    <header class="reveal">
+      <p class="text-sm font-bold uppercase tracking-widest text-accent">Réalisations</p>
+      <h1 class="mt-2 font-display text-4xl font-bold tracking-tight sm:text-5xl">Projets</h1>
+      <p class="mt-3 max-w-xl text-muted">
+        Une sélection de ce que j'ai construit : du prototype de recherche à l'application complète.
+      </p>
+    </header>
+
+    <div class="reveal mt-8 flex flex-wrap gap-2" role="group" aria-label="Filtrer par catégorie">
+      <button class="filter rounded-full border border-line px-4 py-2 text-sm font-bold" data-filter="all" aria-pressed="true">
+        Tous <span class="opacity-60">({projects.length})</span>
+      </button>
+      {categories.map((c) => (
+        <button class="filter rounded-full border border-line px-4 py-2 text-sm font-bold" data-filter={c} aria-pressed="false">
+          {c} <span class="opacity-60">({projects.filter((p) => p.data.category === c).length})</span>
+        </button>
+      ))}
+    </div>
+
+    <div id="projects-grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((p) => <div class="project-item reveal" data-category={p.data.category}><ProjectCard project={p} /></div>)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .filter[aria-pressed='true'] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+  }
+  :global(.dark) .filter[aria-pressed='true'] {
+    color: var(--color-paper);
+  }
+  .filter[aria-pressed='false'] {
+    background: var(--color-card);
+    color: var(--color-muted);
+  }
+  .filter[aria-pressed='false']:hover {
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  function initFilters() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+    const items = document.querySelectorAll<HTMLElement>('.project-item');
+    buttons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        items.forEach((it) => {
+          const show = f === 'all' || it.dataset.category === f;
+          it.hidden = !show;
+          if (show) it.classList.add('is-visible');
+        });
+      })
+    );
+  }
+  document.addEventListener('astro:page-load', initFilters);
+</script>

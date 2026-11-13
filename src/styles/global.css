@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Mode sombre piloté par la classe .dark sur <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================
+   PALETTE — change --color-accent pour changer
+   la couleur principale de tout le site
+   ============================================ */
+@theme {
+  --color-accent: #6d4aff;
+  --color-accent-soft: #ece8ff;
+  --color-accent-strong: #5233e0;
+  --color-ink: #14121f;
+  --color-muted: #5f5b72;
+  --color-paper: #f4f3f8;
+  --color-card: #ffffff;
+  --color-line: #e3e1ec;
+
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+.dark {
+  --color-accent: #9d87ff;
+  --color-accent-soft: #241d45;
+  --color-accent-strong: #b8a8ff;
+  --color-ink: #eeedf5;
+  --color-muted: #a6a2b8;
+  --color-paper: #0e0d15;
+  --color-card: #17161f;
+  --color-line: #2a2836;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Apparition des sections au scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Motif de points discret en arrière-plan du profil */
+.dot-grid {
+  background-image: radial-gradient(var(--color-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
