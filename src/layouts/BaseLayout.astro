@@ -21,7 +21,7 @@ const {
   type = 'website',
 } = Astro.props;
 
-const pageTitle = title ? `${title} — ${profile.fullName}` : `${profile.fullName} — ${profile.title}`;
+const pageTitle = title ? `${title} | ${profile.fullName}` : `${profile.fullName} | ${profile.title}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
 const ogImage = new URL(image, Astro.site ?? site.url);
 ---
