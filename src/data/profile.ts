@@ -147,6 +147,13 @@ export const certifications: {
     image: '/cert-google-genai.jpg',
   },
   {
+    name: 'Machine Learning with Python: Build Real-World ML Models',
+    issuer: 'IBM',
+    date: 'Juil. 2026',
+    url: 'https://coursera.org/verify/X1TT7K5SH6OI',
+    image: '/cert-machine-learning-python.jpg',
+  },
+  {
     name: 'MOOC Intelligence Artificielle Responsable',
     issuer: 'Institut du Numérique Responsable',
     date: 'Mai 2026',
@@ -160,7 +167,6 @@ export const certifications: {
     url: 'https://coursera.org/verify/MXC12ULEROGG',
     image: '/cert-data-analysis-python.jpg',
   },
-  { name: 'Machine Learning with Python', issuer: 'IBM' }, // À COMPLÉTER : date et lien de vérification
   { name: 'Agile Project Management', issuer: 'Google' }, // À COMPLÉTER : date et lien de vérification
 ];
 
