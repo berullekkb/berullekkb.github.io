@@ -169,18 +169,52 @@ export const certifications: {
 ];
 
 // Engagements associatifs (onglet « À propos »)
-export const engagements = [
+// - images : 1 ou 2 images (dans public/). Avec 2 images, elles s'affichent côte à côte au-dessus du texte.
+// - summary : un paragraphe par élément
+// - highlights : liste à puces de réalisations (laisse [] pour ne rien afficher)
+export type Engagement = {
+  name: string;
+  fullName: string;
+  roles: { title: string; period: string }[];
+  images: { src: string; alt: string }[];
+  summary: string[];
+  highlights: string[];
+  link?: { label: string; url: string };
+};
+
+export const engagements: Engagement[] = [
   {
-    role: 'Président',
-    org: 'Association ANECC',
-    period: '2024 à 2026',
-    description: '', // À COMPLÉTER (facultatif) : une phrase sur l'association et ce que tu y as fait
+    name: 'DéCiDE',
+    fullName: 'Défense et Citoyenneté de Demain en Europe',
+    roles: [{ title: 'Responsable communication', period: 'Bureau 2026 à 2027' }],
+    images: [
+      { src: '/asso-decide-profil.jpg', alt: 'Berulle KAMDEM, responsable de la communication de DéCiDE, bureau 2026 à 2027' },
+      { src: '/asso-decide-bureau.jpg', alt: 'Le bureau 2026 à 2027 de l’association DéCiDE' },
+    ],
+    summary: [
+      "DéCiDE est une association étudiante de l'UTC, fondée en 2023. Elle donne aux futurs ingénieurs des clés pour comprendre les enjeux de défense européens, avec une approche factuelle et pluraliste, pour développer leur autonomie de réflexion.",
+      "Elle organise des conférences (un ancien numéro deux de la DGA, l'Armée de Terre, les drones), des visites de sites militaires (centre d'entraînement au combat, ravitaillement en vol sur A330 MRTT, base aéronavale de Landivisiau) et participe aux commémorations du 11 novembre. Elle publie aussi des articles et des vidéos, et anime des débats.",
+      "Au sein du bureau 2026 à 2027, je suis responsable de la communication de l'association.",
+    ],
+    highlights: [], // À COMPLÉTER (facultatif) : ex. "Animation des réseaux sociaux", "Création des visuels du bureau"
+    link: {
+      label: "Lire la présentation de l'association (UTC Alumni)",
+      url: 'https://alumni.utc.fr/fr/article/decide-comprendre-la-defense-et-la-citoyennete-europeenne-depuis-l-utc/26/02/2026/1587',
+    },
   },
   {
-    role: 'Responsable communication',
-    org: 'Club DECIDE',
-    period: '', // À COMPLÉTER (facultatif) : ex. '2025 à 2026'
-    description: '', // À COMPLÉTER (facultatif)
+    name: 'ANECC',
+    fullName: 'Association des anciens et nouveaux étudiants camerounais de Compiègne',
+    roles: [
+      { title: 'Conseiller au bureau', period: 'Bureau 2026 à 2027' },
+      { title: 'Président', period: '2024 à 2026' },
+    ],
+    images: [{ src: '/asso-anecc.jpg', alt: 'Berulle KAMDEM, conseiller au bureau de l’ANECC, bureau 2026 à 2027' }],
+    summary: [
+      "L'ANECC rassemble les étudiants camerounais de Compiègne, anciens comme nouveaux. Elle facilite l'intégration des nouveaux arrivants, entretient un réseau d'entraide entre les générations d'étudiants et organise des événements culturels et professionnels.",
+      "J'ai présidé l'association de 2024 à 2026. Je reste engagé auprès du bureau 2026 à 2027 en tant que conseiller, pour transmettre l'expérience acquise et accompagner la nouvelle équipe.",
+    ],
+    highlights: [], // À COMPLÉTER (facultatif) : ex. "Organisation de X événements", "Y membres accompagnés", "Partenariats"
   },
 ];
 
