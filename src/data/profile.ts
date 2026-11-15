@@ -3,18 +3,20 @@
  *  TOUTES TES INFOS PERSONNELLES SONT ICI
  * ============================================================
  *  Modifie ce fichier pour mettre à jour le site.
- *  Tout ce qui est marqué « À COMPLÉTER » est provisoire.
  *  Les projets et articles de blog sont dans src/content/.
+ *
+ *  ⚠️ Règle d'or : un texte qui contient une apostrophe (') doit être
+ *  entouré de guillemets doubles ("...") et pas de guillemets simples.
  */
 
 export const site = {
   // Texte du logo dans la barre de navigation
   logo: 'BK.',
   // URL finale du site (sert au SEO et au sitemap)
-  url: 'https://berullekamdem.tech', // À COMPLÉTER : ton vrai domaine
+  url: 'https://berullekkb.github.io',
   // Description utilisée par Google et les aperçus LinkedIn
   description:
-    "Portfolio de Berulle KAMDEM KAMDEM — étudiant en Data Science & IA. Projets, parcours et articles.",
+    "Portfolio de Berulle KAMDEM KAMDEM — élève ingénieur IA & Data (UTC) et apprenti chez EDF. Projets, parcours et compétences.",
 };
 
 export const profile = {
@@ -22,34 +24,34 @@ export const profile = {
   lastName: 'KAMDEM KAMDEM',
   fullName: 'Berulle KAMDEM KAMDEM',
   initials: 'BK',
-  title: 'Étudiant en Data Science & IA', // À COMPLÉTER
-  tagline: 'Je transforme les données en solutions concrètes.', // À COMPLÉTER
+  title: 'Apprenti ingénieur IA & Data',
+  tagline: "Du NLP aux agents IA : je transforme des données complexes en outils utiles aux métiers.",
   // Petit badge au-dessus du nom. Mets `null` pour le cacher.
-  availability: 'Disponible pour un stage — 2027', // À COMPLÉTER
-  location: 'France', // À COMPLÉTER
+  availability: 'Recherche une alternance — septembre 2027',
+  location: 'Île-de-France',
   // Photo : remplace public/photo.svg par ta photo (ex. public/photo.jpg) et change ce chemin
-  photo: '/photo.svg',
-  cv: '/cv.pdf', // Mets ton CV dans public/cv.pdf
+  photo: '/photo.svg', // À COMPLÉTER : ta vraie photo
+  cv: '/cv.pdf', // À COMPLÉTER : mets ton CV général dans public/cv.pdf
 };
 
 export const links = {
-  github: 'https://github.com/', // À COMPLÉTER
-  linkedin: 'https://www.linkedin.com/', // À COMPLÉTER
-  email: 'ton.email@exemple.com', // À COMPLÉTER
+  github: 'https://github.com/berullekkb',
+  linkedin: 'https://www.linkedin.com/in/berulle-kamdem-kamdem-79859a27a',
+  email: 'berullekkb@gmail.com',
 };
 
 // Les 3 chiffres clés de la page d'accueil (animés au scroll)
 export const stats = [
-  { value: 5, suffix: '+', label: 'Projets réalisés' }, // À COMPLÉTER
-  { value: 2, suffix: '+', label: 'Expériences pro' }, // À COMPLÉTER
-  { value: 4, suffix: '+', label: 'Années en informatique' }, // À COMPLÉTER
+  { value: 8, suffix: '+', label: 'Projets IA & Data' },
+  { value: 2, suffix: '+', label: "Ans d'alternance" },
+  { value: 3, suffix: '', label: 'Certifications' },
 ];
 
 // Présentation de l'onglet « À propos » (un paragraphe par élément)
 export const about = [
-  "À COMPLÉTER — Je suis étudiant en [formation] à [école], passionné par l'intelligence artificielle et l'analyse de données.",
-  "À COMPLÉTER — Ce qui me motive : [ce qui te passionne, le type de problèmes que tu aimes résoudre].",
-  "À COMPLÉTER — Je recherche actuellement [un stage / une alternance] en [domaine] à partir de [date].",
+  "Élève ingénieur IA & Data à l'UTC (diplôme en août 2027), je suis apprenti ingénieur chez EDF, au sein de la Division Production Nucléaire, depuis septembre 2024.",
+  "J'y conçois des solutions qui transforment des données hétérogènes (constats terrain, documents, tableurs) en outils explicables et utiles aux experts : NLP, systèmes experts, LLM et agents IA. J'aime aussi piloter les projets de bout en bout, de la note de cadrage aux ateliers avec les utilisateurs.",
+  "Je recherche une alternance de 12 mois à partir de septembre 2027, en parallèle d'un Master en IA & Management Stratégique à emlyon business school (candidature en cours).",
 ];
 
 // Frise chronologique : formation + expériences (du plus récent au plus ancien)
@@ -63,45 +65,76 @@ export type TimelineItem = {
 
 export const timeline: TimelineItem[] = [
   {
-    type: 'experience',
-    title: 'Stagiaire Data Analyst', // À COMPLÉTER
-    org: 'Entreprise', // À COMPLÉTER
-    period: '2026', // À COMPLÉTER
-    description: 'À COMPLÉTER — Ce que tu as fait et le résultat obtenu, en une ou deux phrases.',
-  },
-  {
     type: 'formation',
-    title: 'Master / Licence — Data Science', // À COMPLÉTER
-    org: 'Nom de l’école', // À COMPLÉTER
-    period: '2024 — 2027', // À COMPLÉTER
-    description: 'À COMPLÉTER — Spécialité, cours marquants.',
+    title: 'Master in Intelligence Artificielle & Management Stratégique',
+    org: 'emlyon business school, Paris',
+    period: 'À partir de sept. 2027',
+    description:
+      'Candidature en cours. Parcours visé : Stratégie Data & IA, gestion de projet Data & IA, IA générative & agentique, MLOps & LLMOps, AI Act.',
   },
   {
     type: 'experience',
-    title: 'Premier stage', // À COMPLÉTER
-    org: 'Entreprise', // À COMPLÉTER
-    period: '2025', // À COMPLÉTER
-    description: 'À COMPLÉTER — Missions et résultat.',
+    title: 'Apprenti ingénieur IA & Data',
+    org: 'EDF, Division Production Nucléaire — Île-de-France',
+    period: 'Sept. 2024 — Présent',
+    description:
+      "Réduction de 50 000 à 2 000 constats terrain à analyser (135 K€/an économisés) grâce au NLP et à une ontologie. Conception d'un système expert de 36 règles de décision explicables. Fiabilisation du suivi de conformité des 19 centrales nucléaires. Classification des contrôles de conformité par LLM et prompt engineering. Pilotage du planning, notes de cadrage et ateliers avec les experts.",
   },
   {
     type: 'formation',
-    title: 'Baccalauréat', // À COMPLÉTER
-    org: 'Lycée', // À COMPLÉTER
-    period: '2022', // À COMPLÉTER
+    title: "Diplôme d'ingénieur, spécialité IA & Data",
+    org: 'UTC — Université de technologie de Compiègne',
+    period: 'Sept. 2024 — Août 2027',
+    description: 'Cours clés : Machine Learning, moteurs de recherche et RAG, statistiques, cloud.',
+  },
+  {
+    type: 'formation',
+    title: 'Classe préparatoire CPGE MPSI / MP',
+    org: 'Lycée Notre-Dame de Grâce',
+    period: '2022 — 2024',
   },
 ];
 
 // Compétences regroupées par catégorie
 export const skills: { category: string; items: string[] }[] = [
-  { category: 'Langages', items: ['Python', 'SQL', 'Java', 'JavaScript'] }, // À COMPLÉTER
-  { category: 'IA / Data', items: ['Pandas', 'NumPy', 'Scikit-learn', 'PyTorch', 'Power BI'] }, // À COMPLÉTER
-  { category: 'Outils', items: ['Git', 'Docker', 'Jupyter', 'Linux', 'VS Code'] }, // À COMPLÉTER
-  { category: 'Soft skills', items: ['Curiosité', 'Travail en équipe', 'Rigueur', 'Communication'] }, // À COMPLÉTER
+  {
+    category: 'IA & agents',
+    items: ['LangChain', 'LangGraph', 'MCP', 'CrewAI', 'API Mistral', 'Ollama', 'Hugging Face', 'n8n', 'Microsoft Copilot'],
+  },
+  {
+    category: 'Data & cloud',
+    items: ['Python', 'SQL', 'Streamlit', 'Docker', 'Snowflake', 'dbt', 'Airflow', 'AWS', 'Power BI', 'Git / GitHub / GitLab'],
+  },
+  { category: 'Librairies', items: ['pandas', 'NumPy', 'scikit-learn', 'PyTorch', 'spaCy'] },
+  { category: 'Collaboration', items: ['Microsoft 365 (SharePoint, Excel, PowerPoint)', 'Méthode Agile'] },
 ];
 
 export const languages = [
-  { name: 'Français', level: 'Langue maternelle' }, // À COMPLÉTER
-  { name: 'Anglais', level: 'Courant (B2)' }, // À COMPLÉTER
+  { name: 'Français', level: 'Langue maternelle' },
+  { name: 'Anglais', level: 'Professionnel (B2)' },
+];
+
+// Certifications (onglet « À propos »)
+export const certifications = [
+  { name: 'Agile Project Management', issuer: 'Google' },
+  { name: 'Machine Learning with Python', issuer: 'IBM' },
+  { name: 'Data Analysis with Python', issuer: 'IBM' },
+];
+
+// Engagements associatifs (onglet « À propos »)
+export const engagements = [
+  {
+    role: 'Président',
+    org: 'Association ANECC',
+    period: '2024 — 2026',
+    description: '', // À COMPLÉTER (facultatif) : une phrase sur l'association et ce que tu y as fait
+  },
+  {
+    role: 'Responsable communication',
+    org: 'Club DECIDE',
+    period: '', // À COMPLÉTER (facultatif) : ex. '2025 — 2026'
+    description: '', // À COMPLÉTER (facultatif)
+  },
 ];
 
 // Catégories utilisées pour filtrer la page Projets
