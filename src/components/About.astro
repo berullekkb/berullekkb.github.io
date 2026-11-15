@@ -1,5 +1,6 @@
 ---
-import { about, timeline, skills, languages } from '../data/profile';
+import { about, timeline, skills, languages, certifications, engagements } from '../data/profile';
+import Icon from './Icon.astro';
 ---
 
 <div class="space-y-12">
@@ -60,6 +61,58 @@ import { about, timeline, skills, languages } from '../data/profile';
         </div>
       ))}
     </div>
+  </section>
+
+  <!-- Certifications -->
+  <section aria-labelledby="titre-certifications">
+    <h2 id="titre-certifications" class="font-display text-2xl font-bold">Certifications</h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+      {certifications.map((c) => (
+        <li class="flex flex-col overflow-hidden rounded-2xl border border-line bg-card">
+          {c.image && (
+            <a href={c.image} target="_blank" rel="noopener" class="block overflow-hidden border-b border-line bg-paper" aria-label={`Agrandir le certificat ${c.name}`}>
+              <img
+                src={c.image}
+                alt={`Certificat ${c.name} (${c.issuer})`}
+                loading="lazy"
+                decoding="async"
+                class="aspect-[4/3] w-full object-cover object-top transition duration-300 hover:scale-[1.03]"
+              />
+            </a>
+          )}
+          <div class="flex flex-1 flex-col px-5 py-4">
+            <div class="flex items-center justify-between gap-2">
+              <p class="text-xs font-bold uppercase tracking-wider text-accent">{c.issuer}</p>
+              {c.date && <span class="text-sm font-semibold text-muted">{c.date}</span>}
+            </div>
+            <p class="mt-1 font-bold">{c.name}</p>
+            {c.kind && <p class="text-sm text-muted">{c.kind}</p>}
+            {c.url && (
+              <a href={c.url} target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-accent hover:underline">
+                Vérifier le certificat <Icon name="external" class="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Engagements associatifs -->
+  <section aria-labelledby="titre-engagements">
+    <h2 id="titre-engagements" class="font-display text-2xl font-bold">Engagements associatifs</h2>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      {engagements.map((e) => (
+        <li class="rounded-2xl border border-line bg-card px-5 py-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <p class="font-bold">{e.role}</p>
+            {e.period && <span class="text-sm font-semibold text-muted">{e.period}</span>}
+          </div>
+          <p class="text-[15px] font-semibold text-muted">{e.org}</p>
+          {e.description && <p class="mt-2 text-[15px] text-muted">{e.description}</p>}
+        </li>
+      ))}
+    </ul>
   </section>
 
   <!-- Langues -->
