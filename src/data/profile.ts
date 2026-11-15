@@ -16,7 +16,7 @@ export const site = {
   url: 'https://berullekkb.github.io',
   // Description utilisée par Google et les aperçus LinkedIn
   description:
-    "Portfolio de Berulle KAMDEM KAMDEM — élève ingénieur IA & Data (UTC) et apprenti chez EDF. Projets, parcours et compétences.",
+    "Portfolio de Berulle KAMDEM KAMDEM : élève ingénieur IA & Data (UTC) et apprenti chez EDF. Projets, parcours et compétences.",
 };
 
 export const profile = {
@@ -27,10 +27,10 @@ export const profile = {
   title: 'Apprenti ingénieur IA & Data',
   tagline: "Du NLP aux agents IA : je transforme des données complexes en outils utiles aux métiers.",
   // Petit badge au-dessus du nom. Mets `null` pour le cacher.
-  availability: 'Recherche une alternance — septembre 2027',
+  availability: 'Recherche une alternance dès septembre 2027',
   location: 'Île-de-France',
   // Photo : remplace public/photo.svg par ta photo (ex. public/photo.jpg) et change ce chemin
-  photo: '/photo.svg', // À COMPLÉTER : ta vraie photo
+  photo: '/photo.jpg',
   cv: '/cv.pdf', // À COMPLÉTER : mets ton CV général dans public/cv.pdf
 };
 
@@ -51,7 +51,7 @@ export const stats = [
 export const about = [
   "Élève ingénieur IA & Data à l'UTC (diplôme en août 2027), je suis apprenti ingénieur chez EDF, au sein de la Division Production Nucléaire, depuis septembre 2024.",
   "J'y conçois des solutions qui transforment des données hétérogènes (constats terrain, documents, tableurs) en outils explicables et utiles aux experts : NLP, systèmes experts, LLM et agents IA. J'aime aussi piloter les projets de bout en bout, de la note de cadrage aux ateliers avec les utilisateurs.",
-  "Je recherche une alternance de 12 mois à partir de septembre 2027, en parallèle d'un Master en IA & Management Stratégique à emlyon business school (candidature en cours).",
+  "Je recherche une alternance de 12 mois à partir de septembre 2027, pour mettre mes compétences en IA et en data au service des besoins métiers.",
 ];
 
 // Frise chronologique : formation + expériences (du plus récent au plus ancien)
@@ -65,33 +65,25 @@ export type TimelineItem = {
 
 export const timeline: TimelineItem[] = [
   {
-    type: 'formation',
-    title: 'Master in Intelligence Artificielle & Management Stratégique',
-    org: 'emlyon business school, Paris',
-    period: 'À partir de sept. 2027',
-    description:
-      'Candidature en cours. Parcours visé : Stratégie Data & IA, gestion de projet Data & IA, IA générative & agentique, MLOps & LLMOps, AI Act.',
-  },
-  {
     type: 'experience',
     title: 'Apprenti ingénieur IA & Data',
-    org: 'EDF, Division Production Nucléaire — Île-de-France',
-    period: 'Sept. 2024 — Présent',
+    org: 'EDF, Division Production Nucléaire, Île-de-France',
+    period: 'Depuis sept. 2024',
     description:
       "Réduction de 50 000 à 2 000 constats terrain à analyser (135 K€/an économisés) grâce au NLP et à une ontologie. Conception d'un système expert de 36 règles de décision explicables. Fiabilisation du suivi de conformité des 19 centrales nucléaires. Classification des contrôles de conformité par LLM et prompt engineering. Pilotage du planning, notes de cadrage et ateliers avec les experts.",
   },
   {
     type: 'formation',
     title: "Diplôme d'ingénieur, spécialité IA & Data",
-    org: 'UTC — Université de technologie de Compiègne',
-    period: 'Sept. 2024 — Août 2027',
+    org: 'UTC, Université de technologie de Compiègne',
+    period: 'Sept. 2024 à août 2027',
     description: 'Cours clés : Machine Learning, moteurs de recherche et RAG, statistiques, cloud.',
   },
   {
     type: 'formation',
     title: 'Classe préparatoire CPGE MPSI / MP',
     org: 'Lycée Notre-Dame de Grâce',
-    period: '2022 — 2024',
+    period: '2022 à 2024',
   },
 ];
 
@@ -181,13 +173,13 @@ export const engagements = [
   {
     role: 'Président',
     org: 'Association ANECC',
-    period: '2024 — 2026',
+    period: '2024 à 2026',
     description: '', // À COMPLÉTER (facultatif) : une phrase sur l'association et ce que tu y as fait
   },
   {
     role: 'Responsable communication',
     org: 'Club DECIDE',
-    period: '', // À COMPLÉTER (facultatif) : ex. '2025 — 2026'
+    period: '', // À COMPLÉTER (facultatif) : ex. '2025 à 2026'
     description: '', // À COMPLÉTER (facultatif)
   },
 ];
