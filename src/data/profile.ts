@@ -44,7 +44,7 @@ export const links = {
 export const stats = [
   { value: 8, suffix: '+', label: 'Projets IA & Data' },
   { value: 2, suffix: '+', label: "Ans d'alternance" },
-  { value: 3, suffix: '', label: 'Certifications' },
+  { value: 6, suffix: '', label: 'Certifications' },
 ];
 
 // Présentation de l'onglet « À propos » (un paragraphe par élément)
@@ -114,11 +114,54 @@ export const languages = [
   { name: 'Anglais', level: 'Professionnel (B2)' },
 ];
 
-// Certifications (onglet « À propos »)
-export const certifications = [
-  { name: 'Agile Project Management', issuer: 'Google' },
-  { name: 'Machine Learning with Python', issuer: 'IBM' },
-  { name: 'Data Analysis with Python', issuer: 'IBM' },
+// Certifications (onglet « À propos »), de la plus récente à la plus ancienne.
+// Pour en ajouter une : copie un bloc { ... }, colle-le en haut de la liste et change les textes.
+// `url` = lien de vérification officiel (facultatif : supprime la ligne s'il n'y en a pas).
+export const certifications: {
+  name: string;
+  issuer: string;
+  date?: string;
+  url?: string;
+  kind?: string;
+  image?: string; // image dans public/cert-
+}[] = [
+  {
+    name: 'Agentic AI with LangChain and LangGraph',
+    issuer: 'IBM',
+    date: 'Août 2026',
+    url: 'https://coursera.org/verify/H8U5T2BN1R1I',
+    image: '/cert-agentic.jpg',
+  },
+  {
+    name: 'Fundamentals of Building AI Agents',
+    issuer: 'IBM',
+    date: 'Août 2026',
+    url: 'https://coursera.org/verify/CE124SGZOTNN',
+    image: '/cert-agents-fundamentals.jpg',
+  },
+  {
+    name: 'Introduction to Generative AI Learning Path',
+    issuer: 'Google Cloud',
+    date: 'Août 2026',
+    url: 'https://coursera.org/verify/specialization/8M6ZKRZQRWKL',
+    image: '/cert-google-genai.jpg',
+  },
+  {
+    name: 'MOOC Intelligence Artificielle Responsable',
+    issuer: 'Institut du Numérique Responsable',
+    date: 'Mai 2026',
+    kind: 'Attestation de suivi',
+    image: '/cert-inr-ia-responsable.jpg',
+  },
+  {
+    name: 'Data Analysis with Python',
+    issuer: 'IBM',
+    date: 'Déc. 2025',
+    url: 'https://coursera.org/verify/MXC12ULEROGG',
+    image: '/cert-data-analysis-python.jpg',
+  },
+  { name: 'Machine Learning with Python', issuer: 'IBM' }, // À COMPLÉTER : date et lien de vérification
+  { name: 'Agile Project Management', issuer: 'Google' }, // À COMPLÉTER : date et lien de vérification
 ];
 
 // Engagements associatifs (onglet « À propos »)
