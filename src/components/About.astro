@@ -101,18 +101,56 @@ import Icon from './Icon.astro';
   <!-- Engagements associatifs -->
   <section aria-labelledby="titre-engagements">
     <h2 id="titre-engagements" class="font-display text-2xl font-bold">Engagements associatifs</h2>
-    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
-      {engagements.map((e) => (
-        <li class="rounded-2xl border border-line bg-card px-5 py-4">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <p class="font-bold">{e.role}</p>
-            {e.period && <span class="text-sm font-semibold text-muted">{e.period}</span>}
-          </div>
-          <p class="text-[15px] font-semibold text-muted">{e.org}</p>
-          {e.description && <p class="mt-2 text-[15px] text-muted">{e.description}</p>}
-        </li>
-      ))}
-    </ul>
+    <div class="mt-6 space-y-6">
+      {engagements.map((e) => {
+        const two = e.images.length > 1;
+        return (
+          <article class="overflow-hidden rounded-2xl border border-line bg-card">
+            <div class:list={[!two && e.images.length === 1 && 'md:grid md:grid-cols-[minmax(0,17rem)_1fr]']}>
+              {e.images.length > 0 && (
+                <div class:list={['grid gap-px bg-line', two ? 'grid-cols-2' : 'grid-cols-1']}>
+                  {e.images.map((img) => (
+                    <a href={img.src} target="_blank" rel="noopener" class="block overflow-hidden bg-paper" aria-label={`Agrandir : ${img.alt}`}>
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        loading="lazy"
+                        decoding="async"
+                        class="aspect-[4/5] w-full object-cover transition duration-300 hover:scale-[1.03]"
+                      />
+                    </a>
+                  ))}
+                </div>
+              )}
+              <div class="p-5 sm:p-6">
+                <h3 class="font-display text-2xl font-bold">{e.name}</h3>
+                <p class="text-[15px] font-semibold text-muted">{e.fullName}</p>
+                <ul class="mt-4 flex flex-wrap gap-2">
+                  {e.roles.map((r) => (
+                    <li class="rounded-full bg-accent-soft px-3 py-1 text-sm font-bold text-accent">
+                      {r.title} <span class="font-semibold opacity-80">· {r.period}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-4 space-y-3 text-[15px] leading-relaxed text-muted">
+                  {e.summary.map((p) => <p>{p}</p>)}
+                </div>
+                {e.highlights.length > 0 && (
+                  <ul class="mt-4 list-disc space-y-1 pl-5 text-[15px] text-muted marker:text-accent">
+                    {e.highlights.map((h) => <li>{h}</li>)}
+                  </ul>
+                )}
+                {e.link && (
+                  <a href={e.link.url} target="_blank" rel="noopener" class="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-accent hover:underline">
+                    {e.link.label} <Icon name="external" class="h-4 w-4" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
   </section>
 
   <!-- Langues -->
