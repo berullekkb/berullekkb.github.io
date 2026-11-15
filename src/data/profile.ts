@@ -44,7 +44,7 @@ export const links = {
 export const stats = [
   { value: 8, suffix: '+', label: 'Projets IA & Data' },
   { value: 2, suffix: '+', label: "Ans d'alternance" },
-  { value: 6, suffix: '', label: 'Certifications' },
+  { value: 7, suffix: '', label: 'Certifications' },
 ];
 
 // Présentation de l'onglet « À propos » (un paragraphe par élément)
@@ -126,6 +126,13 @@ export const certifications: {
   image?: string; // image dans public/cert-
 }[] = [
   {
+    name: 'Agile Project Management',
+    issuer: 'Google',
+    date: 'Août 2026',
+    url: 'https://coursera.org/verify/D079UPLOYZ55',
+    image: '/cert-agile-project-management.jpg',
+  },
+  {
     name: 'Agentic AI with LangChain and LangGraph',
     issuer: 'IBM',
     date: 'Août 2026',
@@ -167,7 +174,6 @@ export const certifications: {
     url: 'https://coursera.org/verify/MXC12ULEROGG',
     image: '/cert-data-analysis-python.jpg',
   },
-  { name: 'Agile Project Management', issuer: 'Google' }, // À COMPLÉTER : date et lien de vérification
 ];
 
 // Engagements associatifs (onglet « À propos »)
