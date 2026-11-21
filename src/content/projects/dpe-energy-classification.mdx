@@ -1,0 +1,83 @@
+---
+title: "Machine Learning · DPE Energy Classification"
+subtitle: "Prédire la performance énergétique de 55 000 logements des Hauts-de-France à partir de leur DPE"
+category: "IA"
+tech: ["Python", "Scikit-learn", "LightGBM", "Optuna", "JavaScript", "XGBoost", "CatBoost", "GitHub Actions"]
+cover: "/projects/dpe-energy-classification.svg"
+github: "https://github.com/berullekkb/dpe-energy-classification"
+demo: "https://berullekkb.github.io/dpe-energy-classification/"
+featured: true
+order: 1
+date: 2026-11-21
+---
+
+## Contexte
+
+Projet du cours **AI28 (Machine Learning)** à l'UTC. Les données sont les
+diagnostics de performance énergétique (DPE) publiés par l'ADEME pour les
+Hauts-de-France : **55 357 logements** décrits par 19 caractéristiques (type de
+bâtiment, période de construction, énergie et générateur de chauffage,
+isolation, ventilation…).
+
+## Le problème
+
+Prédire la famille énergétique d'un logement à partir de ces caractéristiques.
+L'étiquette DPE est regroupée en trois classes : **Performant** (A-B),
+**Passable** (C-D) et **Energivore** (E-F-G). Les classes sont très
+déséquilibrées (4 % de logements performants seulement), d'où le choix du
+**F1 macro** comme métrique principale.
+
+Une difficulté moins visible : **45 % des logements ont un « jumeau »** qui
+partage exactement les mêmes 19 caractéristiques. Avec un découpage ligne à
+ligne, le modèle retrouve dans l'évaluation des logements déjà vus pendant
+l'entraînement, et le score est gonflé.
+
+## Ma démarche
+
+- **Découpage par profils** : les logements identiques restent du même côté
+  (entraînement 33 351, validation 11 130, test 10 876), avec une validation
+  croisée par groupes pour l'optimisation.
+- **11 modèles comparés sous le même protocole** : régressions logistiques
+  (Ridge, Lasso, Elastic Net), SVM, arbre de décision, Random Forest, AdaBoost,
+  Gradient Boosting, XGBoost, LightGBM et CatBoost, tous optimisés avec Optuna.
+- **Poids de classe** pour mieux repérer les logements performants, et étude
+  du compromis rappel / précision qu'ils entraînent.
+- **Jeu de test utilisé une seule fois**, pour le modèle choisi en validation.
+- **Code Python structuré et testé** (65 tests), au lieu de notebooks isolés.
+
+## Le site interactif
+
+J'ai publié un [site interactif](https://berullekkb.github.io/dpe-energy-classification/)
+pour manipuler les résultats :
+
+- un **simulateur** : on part d'un logement réel, on modifie ses
+  caractéristiques et le modèle LightGBM, exécuté dans le navigateur, estime sa
+  famille énergétique ;
+- un curseur sur le **poids de la classe Performant** ;
+- la démonstration de la **fuite par logements jumeaux** ;
+- une **carte t-SNE** de 6 000 logements et le **benchmark** des 11 modèles.
+
+Les prédictions du navigateur sont identiques à celles du modèle Python
+(vérifié sur 500 logements). GitHub Actions ne publie le site que si ces
+vérifications réussissent.
+
+## Résultats
+
+| | F1 macro |
+|---|---|
+| Random Forest retenu, validation | 0,775 |
+| Random Forest, **test final** | **0,728** |
+| Baseline (régression logistique), test | 0,648 |
+
+- Sur le test, le Random Forest atteint une **accuracy de 0,794** et une
+  balanced accuracy de 0,731.
+- Le découpage ligne à ligne aurait affiché **0,788** au lieu de **0,763** pour
+  le même modèle : la fuite gonfle bien le score.
+- Augmenter le poids des logements performants fait passer leur **rappel de
+  0,58 à 0,79**, au prix d'une précision qui baisse de 0,91 à 0,66.
+
+## Ce que j'en retiens
+
+La rigueur du protocole compte autant que le choix du modèle : un découpage
+adapté aux données et un test gardé pour la fin donnent un score plus bas, mais
+honnête.
