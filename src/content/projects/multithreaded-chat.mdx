@@ -1,0 +1,93 @@
+---
+title: "Multithreaded Chat [Java TCP]"
+subtitle: "Un chat multi-clients en Java, un thread par client, avec une interface web qui montre le protocole en direct"
+category: "Web"
+tech: ["Java", "Sockets TCP", "Multithreading", "Server-Sent Events", "JavaScript", "pytest", "GitHub Actions"]
+cover: "/projects/multithreaded-chat.svg"
+github: "https://github.com/berullekkb/multithreaded-chat"
+demo: "https://berullekkb.github.io/multithreaded-chat/"
+featured: true
+order: 3
+date: 2026-11-22
+---
+
+## Contexte
+
+Projet de programmation réseau réalisé dans le cadre du cours **AI13** à l'UTC.
+L'objectif : un salon de discussion où plusieurs personnes se connectent en même
+temps à un serveur, choisissent un pseudonyme et échangent des messages en temps
+réel. Le tout en **Java pur**, avec des **sockets TCP** et des **threads**, sans
+aucune bibliothèque externe.
+
+## Le problème
+
+Un serveur de chat paraît simple, mais plusieurs clients qui parlent en même
+temps posent de vraies questions de concurrence :
+
+- une lecture réseau est **bloquante** (`readLine()`) : un client qui ne dit rien
+  ne doit pas bloquer les autres ;
+- deux clients qui demandent **le même pseudo au même instant** ne doivent pas
+  l'obtenir tous les deux ;
+- tout le monde doit recevoir les messages **dans le même ordre**, et un nouvel
+  arrivant ne doit pas en rater entre l'historique et la suite ;
+- un départ, volontaire ou brutal (terminal fermé, réseau coupé), doit toujours
+  être nettoyé ;
+- les accents doivent passer entre **Windows** (cp1252 par défaut) et **Linux**.
+
+## Ma démarche
+
+- **Un thread par client** : le serveur accepte les connexions sur un
+  `ServerSocket` et confie chaque socket à un pool de threads borné. Au-delà du
+  maximum, le client est refusé proprement.
+- **Un état partagé protégé** : la réservation des pseudos passe par un
+  `ConcurrentHashMap.putIfAbsent` atomique (insensible à la casse), et toutes les
+  diffusions passent par un **verrou unique**, ce qui garantit le même ordre pour
+  tous.
+- **Un protocole texte typé** (une ligne par message : pseudo accepté ou
+  refusé, message public ou privé, historique, liste des connectés, fin de
+  connexion), partagé par le serveur et les clients, avec des commandes :
+  messages privés, liste des connectés, aide.
+- **Une passerelle web** construite avec la seule bibliothèque standard
+  (`HttpServer` et Server-Sent Events) : un navigateur rejoint le **même salon**
+  qu'un client en terminal.
+- **Des tests qui lancent le vrai serveur** et lui parlent en TCP et en HTTP,
+  exécutés par GitHub Actions à chaque push.
+
+## Le site interactif
+
+J'ai publié un [site interactif](https://berullekkb.github.io/multithreaded-chat/)
+pour voir le serveur travailler :
+
+- un **salon de discussion** et, à côté, le serveur : chaque client y est un
+  câble avec le nom du thread qui le sert, et chaque
+  message part de l'expéditeur, passe par le serveur et repart vers tout le
+  monde ;
+- les **lignes brutes du protocole**, au fur et à mesure qu'elles arrivent ;
+- le **rejeu pas à pas** d'une vraie session enregistrée sur le serveur Java :
+  pseudo refusé, diffusion, message privé, historique, départ.
+
+En ligne, le serveur est simulé dans la page, avec des clients fictifs. Un test
+vérifie qu'il produit **exactement les mêmes lignes** que le serveur Java. En
+local, la même page se connecte au vrai serveur : navigateurs et terminaux
+discutent ensemble.
+
+## Résultats
+
+| Vérification | Résultat |
+|---|---|
+| 30 clients écrivent au même instant | chacun reçoit les 30 messages, **dans le même ordre** |
+| 20 clients demandent le même pseudo au même instant | **un seul** l'obtient |
+| Tests d'intégration (vrai serveur, TCP + HTTP) | **33 / 33** |
+| Démo en ligne comparée au serveur Java | **lignes identiques** sur une session de 11 étapes |
+
+- Le salon accepte en même temps des clients en **terminal** et dans le
+  **navigateur**, y compris pour les messages privés.
+- Le serveur prévient tout le monde avant de s'arrêter (Ctrl+C), et un client
+  qui disparaît sans prévenir est retiré du salon.
+
+## Ce que j'en retiens
+
+En programmation concurrente, le plus important n'est pas que le code marche
+une fois, mais qu'il marche **quand tout arrive en même temps**. Ces cas-là ne
+se vérifient pas à la main : il faut des tests qui provoquent la course, et un
+protocole assez clair pour pouvoir comparer deux exécutions ligne par ligne.
