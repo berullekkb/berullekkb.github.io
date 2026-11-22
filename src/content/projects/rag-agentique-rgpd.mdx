@@ -1,0 +1,100 @@
+---
+title: "RAG avancé vs RAG agentic [RGPD chatbot]"
+subtitle: "Un chatbot RGPD fondé sur le texte officiel : RAG classique contre équipe d'agents LangGraph"
+category: "IA"
+tech: ["Python", "LangGraph", "LangChain", "Ollama", "RAGAS", "ChromaDB", "FastAPI", "React", "GitHub Actions"]
+cover: "/projects/rag-agentique-rgpd.svg"
+github: "https://github.com/berullekkb/rag-agentique-rgpd"
+demo: "https://berullekkb.github.io/rag-agentique-rgpd/"
+featured: true
+order: 2
+date: 2026-11-22
+---
+
+## Contexte
+
+Le **RGPD** (règlement européen 2016/679) compte 99 articles. On peut poser
+une question en français, par exemple « Quand une analyse d'impact est-elle
+obligatoire ? », et obtenir une réponse qui **cite les articles** sur lesquels
+elle s'appuie. Sur un sujet juridique, un modèle de langage seul ne suffit
+pas : il peut inventer et ne cite pas ses sources. D'où le choix du **RAG**
+(*Retrieval-Augmented Generation*) : on cherche d'abord les bons articles,
+puis le modèle rédige sa réponse uniquement à partir d'eux.
+
+Tout tourne **en local** avec Ollama (`qwen2.5:7b`) : aucune clé d'API,
+aucune donnée envoyée à l'extérieur.
+
+## Le problème
+
+Le RAG avancé de départ (reformulation de la question, découpage parent /
+enfant, reranking) avait des faiblesses précises :
+
+- les **titres d'articles n'étaient pas indexés** : à « Quels sont les
+  principes relatifs au traitement ? », il ne retrouvait pas l'**article 5**,
+  dont c'est exactement le titre, et répondait avec l'article 6 ;
+- il gardait toujours **3 articles**, trop peu pour les questions
+  transversales (les droits de la personne vont de l'article 15 à 21) ;
+- **aucune boucle** : une mauvaise recherche ou une réponse non sourcée
+  n'était ni détectée ni corrigée.
+
+## Ma démarche
+
+J'ai construit un **RAG agentique** : un graphe **LangGraph** de 7 agents qui
+partagent un même état.
+
+- **Planner** : vérifie que la question porte sur le RGPD, la découpe en
+  sous-questions et propose des articles candidats.
+- **Researcher** : combine recherche vectorielle et recherche lexicale
+  **BM25** (fusion RRF), peut lire un article directement et classe les
+  résultats avec un reranker multilingue.
+- **Grader** (*Corrective RAG*) : écarte les articles hors sujet et signale
+  ce qui manque ; le **Rewriter** relance alors la recherche.
+- **Writer**, puis **Critic** et **Reviser** (*Reflection / Reflexion*) :
+  relecture de la réponse, recherche ciblée et réécriture si une affirmation
+  n'est pas appuyée par un article.
+
+Pour une **comparaison équitable**, les deux systèmes partagent le même index,
+le même modèle et le même prompt de rédaction : seule l'orchestration change.
+L'évaluation utilise **RAGAS** (faithfulness, answer relevancy, context
+precision, context recall), plus une mesure sans modèle : la part des articles
+attendus effectivement retrouvés.
+
+## Le site interactif
+
+J'ai publié un [site interactif](https://berullekkb.github.io/rag-agentique-rgpd/)
+pour explorer les résultats :
+
+- le **graphe des agents**, avec le parcours réel d'une question rejoué étape
+  par étape ;
+- un **comparateur** question par question : articles lus, réponses et notes
+  des deux systèmes ;
+- une **carte des 99 articles** (t-SNE des embeddings) qui montre où cherche
+  chaque système ;
+- le **benchmark RAGAS** complet.
+
+GitHub Actions vérifie les données avant chaque publication du site.
+
+## Résultats
+
+Sur 10 questions, avec le même modèle et le même juge pour les deux systèmes :
+
+| | RAG avancé | RAG agentique |
+|---|---|---|
+| Context recall | 0,72 | **0,98** |
+| Articles attendus retrouvés | 52 % | **77 %** |
+| Moyenne des 4 notes RAGAS | 0,716 | **0,769** |
+| Faithfulness | **0,69** | 0,60 |
+| Temps par réponse | 160 s | 524 s |
+
+- Le gain vient de la **recherche** : l'agent ne rate presque plus d'article
+  (article 5 retrouvé, articles 15 à 17 pour les droits de la personne).
+- La **fidélité baisse** : le modèle de réponse ajoute des recommandations
+  génériques, et le Critic, joué par le même petit modèle, les laisse passer.
+- L'approche agentique coûte environ **3 fois plus de temps** par réponse.
+
+## Ce que j'en retiens
+
+Un graphe d'agents corrige bien ce qui se mesure de façon objective (trouver
+les bons articles), mais une boucle de réflexion n'est utile que si le critique
+est plus exigeant que le rédacteur. Mesurer les deux systèmes dans les mêmes
+conditions m'a permis de voir à la fois le gain et ses limites.
